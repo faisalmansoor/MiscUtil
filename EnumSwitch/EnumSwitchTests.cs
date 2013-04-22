@@ -98,5 +98,39 @@ namespace EnumSwitch
 
             Assert.AreEqual(ex.Message, "Switch statement didn't handle cases: Red");
         }
+
+        [Test]
+        public void HanldDefault()
+        {
+            var color = Colors.Red;
+            new EnumSwitch<Colors>(color)
+                .Case(Colors.Blue, () => Console.WriteLine("Blue"))
+                .Case(Colors.Green, () => Console.WriteLine("Green"))
+                .Default(() =>
+                               {
+                                   Console.WriteLine("Color not handled: {0}", color);
+                                   return true;
+                               })
+                .Execute();
+        }
+
+        [Test]
+        public void HanldDefaultButLetEnumSwitchThrowException()
+        {
+            var color = Colors.Red;
+            Exception ex = Assert.Throws(
+                typeof (NotImplementedException),
+                () => new EnumSwitch<Colors>(Colors.Red)
+                          .Case(Colors.Blue, () => Console.WriteLine("Blue"))
+                          .Case(Colors.Green, () => Console.WriteLine("Green"))
+                          .Default(() =>
+                                         {
+                                             Console.WriteLine("Color not handled: {0}", color);
+                                             return false;
+                                         })
+                          .Execute());
+
+            Assert.AreEqual(ex.Message, "Switch statement didn't handle cases: Red");
+        }
     }
 }

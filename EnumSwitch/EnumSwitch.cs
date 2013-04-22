@@ -8,6 +8,7 @@
     {
         private readonly Dictionary<T, Action> _caseMap = new Dictionary<T, Action>();
         private readonly T? _switchOn;
+        private Func<bool> _defaultHanlder;
 
         public EnumSwitch()
         {
@@ -57,6 +58,12 @@
             return Case(option, () => { });
         }
 
+        public EnumSwitch<T> Default(Func<bool> handler)
+        {
+            _defaultHanlder = handler;
+            return this;
+        }
+
         public void Execute()
         {
             if (!_switchOn.HasValue)
@@ -69,7 +76,10 @@
 
         public void Execute(T switchOn)
         {
-            Validate();
+            if(!Validate())
+            {
+                return;
+            }
 
             Action action;
             if (_caseMap.TryGetValue(switchOn, out action))
@@ -82,15 +92,26 @@
             }
         }
 
-        private void Validate()
+        private bool Validate()
         {
             var possibleValues = Enum.GetValues(typeof(T)).Cast<T>().ToArray();
             var missingValues = possibleValues.Except(_caseMap.Keys);
             if (missingValues.Count() != 0)
             {
+                if(_defaultHanlder != null)
+                {
+                    bool handled = _defaultHanlder();
+                    if(handled)
+                    {
+                        return false;
+                    }
+                }
+
                 string msg = "Switch statement didn't handle cases: " + String.Join(", ", missingValues);
                 throw new NotImplementedException(msg);
             }
+
+            return true;
         }
     }
 }
