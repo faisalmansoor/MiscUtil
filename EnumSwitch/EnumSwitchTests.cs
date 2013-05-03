@@ -19,7 +19,7 @@ namespace EnumSwitch
             new EnumSwitch<Colors>(Colors.Red)
                 .Case(Colors.Blue, () => Console.WriteLine("Blue"))
                 .Case(Colors.Red, () => Console.WriteLine("Red"))
-                .Case(Colors.Green, () => Console.WriteLine("Green"))
+                .Ignore(Colors.Green)
                 .Execute();
         }
 
@@ -27,8 +27,14 @@ namespace EnumSwitch
         public void Cases()
         {
             new EnumSwitch<Colors>(Colors.Red)
-                .Case(new[] { Colors.Red, Colors.Blue }, () => Console.WriteLine("Red or Blue"))
-                .Case(Colors.Green, () => Console.WriteLine("Green"))
+                .Case(new[]
+                          {
+                              Colors.Red, 
+                              Colors.Blue
+                          }, 
+                          () => Console.WriteLine("Red or Blue"))
+                .Case(Colors.Green, 
+                () => Console.WriteLine("Green"))
                 .Execute();
         }
 
@@ -131,6 +137,72 @@ namespace EnumSwitch
                           .Execute());
 
             Assert.AreEqual(ex.Message, "Switch statement didn't handle cases: Red");
+        }
+
+        [Test]
+        public void Performance()
+        {
+            Array colors = Enum.GetValues(typeof(Colors));
+            int length = colors.Length;
+
+            var start = DateTime.Now;
+            for(int i=0; i<10000; i++)
+            {
+                PrintColorUsingSwitch((Colors)colors.GetValue(i%length));
+            }
+
+            Console.WriteLine("PrintColorUsingSwitch took: {0}", DateTime.Now - start);
+
+            start = DateTime.Now;
+            for (int i = 0; i < 10000; i++)
+            {
+                PrintColorUsingEnumSwitch((Colors)colors.GetValue(i % length));
+            }
+
+            Console.WriteLine("PrintColorUsingEnumSwitch took: {0}", DateTime.Now - start);
+        }
+
+        public string PrintColorUsingEnumSwitch(Colors color)
+        {
+            string str = null;
+            new EnumSwitch<Colors>(color)
+                .Case(Colors.Red, () => str = "Red")
+                .Case(Colors.Blue, () => str = "Blue")
+                .Case(Colors.Green, () => str = "Green")
+                .Execute();
+            return str;
+        }
+
+        public string PrintColorUsingCachedEnumSwitch(Colors color)
+        {
+            string str = null;
+            new EnumSwitch<Colors>()
+                .Case(Colors.Red, () => str = "Red")
+                .Case(Colors.Blue, () => str = "Blue")
+                .Case(Colors.Green, () => str = "Green")
+                .Execute(color);
+            
+            return str;
+        }
+
+        public string PrintColorUsingSwitch(Colors color)
+        {
+            string str = null;
+            switch (color)
+            {
+                case Colors.Red:
+                    return "Red";
+                    break;
+                case Colors.Blue:
+                    return  "Blue";
+                    break;
+                case Colors.Green:
+                    return  "Green";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("color");
+            }
+            return str;
         }
     }
 }
