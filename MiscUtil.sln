@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumSwitch", "EnumSwitch\En
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeyondCompareLauncher", "BeyondCompareLauncher\BeyondCompareLauncher.csproj", "{6B89CC09-C037-43B9-A730-A69D2FE243B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicDefaultValue", "DynamicDefaultValue\DynamicDefaultValue.csproj", "{BA4A484E-3A32-4538-9410-2266C318161E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{6B89CC09-C037-43B9-A730-A69D2FE243B8}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6B89CC09-C037-43B9-A730-A69D2FE243B8}.Release|x86.ActiveCfg = Release|x86
 		{6B89CC09-C037-43B9-A730-A69D2FE243B8}.Release|x86.Build.0 = Release|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Debug|x86.ActiveCfg = Debug|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Debug|x86.Build.0 = Debug|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Release|Any CPU.ActiveCfg = Release|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Release|x86.ActiveCfg = Release|x86
+		{BA4A484E-3A32-4538-9410-2266C318161E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
