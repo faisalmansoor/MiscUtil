@@ -8,10 +8,10 @@ namespace DynamicDefaultValue
     public class Configuration
     {
         [DefaultValue(@"C:\Database")]
-        public string DatabasePath;
+        public string DatabasePath = @"C:\Database";
 
         [DynamicDefaultValue("TEMP_PATH")]
-        public string TempPath;
+        public string TempPath = Path.GetTempPath();
     }
 
     class Program
